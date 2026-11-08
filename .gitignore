@@ -1,0 +1,5 @@
+node_modules/
+.DS_Store
+.vercel
+# raw Instagram reels (web-optimised copies live in public/video)
+assets/ig/*.mp4

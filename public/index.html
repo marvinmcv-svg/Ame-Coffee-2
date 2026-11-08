@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AMÉ Specialty Coffee · Café &amp; Bar en Santa Cruz de la Sierra</title>
+  <meta name="description" content="AMÉ Specialty Coffee: café de especialidad, coctelería de autor, cocina con sabor cruceño y música en vivo. Sucursales Equipetrol y Banzer, Shopping Fidalga · Santa Cruz, Bolivia. Abierto de 07:00 a 23:00." />
+  <meta name="theme-color" content="#1E1713" />
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml" />
+  <link rel="canonical" href="/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="AMÉ Specialty Coffee · Santa Cruz, Bolivia" />
+  <meta property="og:description" content="¡Ama, ríe y vive! Café de especialidad, coctelería y sabor cruceño en Equipetrol y Banzer." />
+  <meta property="og:image" content="/img/og.jpg" />
+  <meta property="og:locale" content="es_BO" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Manrope:wght@400;500;600;700&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CafeOrCoffeeShop",
+    "name": "AMÉ Specialty Coffee",
+    "slogan": "¡Ama, ríe y vive!",
+    "servesCuisine": ["Café de especialidad", "Coctelería", "Cocina boliviana"],
+    "telephone": "+591 75026695",
+    "sameAs": ["https://www.instagram.com/ame.specialtycoffee/"],
+    "openingHours": "Mo-Su 07:00-23:00",
+    "department": [
+      {"@type": "CafeOrCoffeeShop", "name": "AMÉ Equipetrol", "address": {"@type": "PostalAddress", "streetAddress": "Av. San Martín, Shopping Fidalga", "addressLocality": "Santa Cruz de la Sierra", "addressCountry": "BO"}},
+      {"@type": "CafeOrCoffeeShop", "name": "AMÉ Banzer", "address": {"@type": "PostalAddress", "streetAddress": "Av. Banzer, Shopping Fidalga", "addressLocality": "Santa Cruz de la Sierra", "addressCountry": "BO"}}
+    ]
+  }
+  </script>
+
+  <script type="importmap">
+  { "imports": { "three": "/vendor/three.module.min.js" } }
+  </script>
+</head>
+<body class="is-loading">
+
+  <!-- Brand mark, reused via <use> -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="ame-mark" viewBox="0 0 320 150">
+      <rect x="4" y="4" width="312" height="104" fill="none" stroke="currentColor" stroke-width="6"/>
+      <text x="160" y="82" text-anchor="middle" font-family="Montserrat, sans-serif" font-weight="500" font-size="64" letter-spacing="26" fill="currentColor" dx="13">AMÉ</text>
+      <text x="160" y="140" text-anchor="middle" font-family="Montserrat, sans-serif" font-weight="600" font-size="17" letter-spacing="5" fill="currentColor">SPECIALTY ♡ COFFEE</text>
+    </symbol>
+  </svg>
+
+  <!-- Loader -->
+  <div class="loader" aria-hidden="true">
+    <svg class="loader__mark"><use href="#ame-mark"/></svg>
+    <div class="loader__bar"><span></span></div>
+  </div>
+
+  <!-- Nav -->
+  <header class="nav" data-nav>
+    <a href="#inicio" class="nav__logo" aria-label="AMÉ Specialty Coffee — inicio">
+      <svg><use href="#ame-mark"/></svg>
+    </a>
+    <nav class="nav__links" aria-label="Principal">
+      <a href="#nosotros">Nosotros</a>
+      <a href="#menu">Menú</a>
+      <a href="#experiencias">Experiencias</a>
+      <a href="#sucursales">Sucursales</a>
+    </nav>
+    <a class="btn btn--small" href="https://wa.me/59175026695?text=Hola%20AM%C3%89%2C%20quiero%20reservar%20una%20mesa" target="_blank" rel="noopener">Reservar</a>
+    <button class="nav__toggle" aria-label="Abrir menú" aria-expanded="false" data-nav-toggle><span></span><span></span></button>
+  </header>
+
+  <div class="mobile-menu" data-mobile-menu>
+    <a href="#nosotros">Nosotros</a>
+    <a href="#menu">Menú</a>
+    <a href="#experiencias">Experiencias</a>
+    <a href="#sucursales">Sucursales</a>
+    <a href="https://wa.me/59175026695" target="_blank" rel="noopener">Reservar por WhatsApp</a>
+  </div>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="inicio">
+      <canvas class="hero__canvas" data-hero-canvas aria-hidden="true"></canvas>
+      <img class="hero__fallback" src="/img/latte-pour.webp" alt="" aria-hidden="true" />
+      <div class="hero__content">
+        <p class="eyebrow" data-reveal>Specialty Coffee · Café &amp; Bar · Santa Cruz de la Sierra</p>
+        <h1 class="hero__title">
+          <span class="line"><span>Ama,</span></span>
+          <span class="line"><span><em>ríe</em> y</span></span>
+          <span class="line"><span>vive.</span></span>
+        </h1>
+        <p class="hero__lede" data-reveal>Café de especialidad, coctelería con frutas de nuestra tierra y una cocina que sabe a Santa Cruz. Te esperamos todos los días, de 07:00 a 23:00.</p>
+        <div class="hero__ctas" data-reveal>
+          <a class="btn" href="#menu">Ver el menú</a>
+          <a class="btn btn--ghost" href="#sucursales">Cómo llegar</a>
+        </div>
+      </div>
+      <div class="hero__scroll" aria-hidden="true"><span>Desliza</span><i></i></div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>Café de especialidad</span><b>✦</b><span>Coctelería de autor</span><b>✦</b><span>Sabor cruceño</span><b>✦</b><span>Música en vivo</span><b>✦</b><span>Equipetrol &amp; Banzer</span><b>✦</b>
+        <span>Café de especialidad</span><b>✦</b><span>Coctelería de autor</span><b>✦</b><span>Sabor cruceño</span><b>✦</b><span>Música en vivo</span><b>✦</b><span>Equipetrol &amp; Banzer</span><b>✦</b>
+      </div>
+    </div>
+
+    <!-- ABOUT -->
+    <section class="about section" id="nosotros">
+      <div class="about__grid">
+        <div class="about__text">
+          <p class="eyebrow" data-reveal>Nuestra historia</p>
+          <h2 class="h2" data-split>Nacimos en Santa Cruz para celebrar el buen café y los momentos que se comparten.</h2>
+          <p data-reveal>AMÉ es una cafetería de especialidad cruceña. Nuestra misión es simple: promover el consumo de cafés de calidad y difundir la cultura cafetera nacional, con todo el cariño de nuestra tierra.</p>
+          <p data-reveal>Combinamos café de alta calidad, panadería y gastronomía creativa en un solo lugar: desde el primer cappuccino de la mañana hasta el último cóctel de la noche.</p>
+          <ul class="stats" data-reveal>
+            <li><strong data-count="15">0</strong><span>mil personas nos siguen</span></li>
+            <li><strong data-count="2">0</strong><span>sucursales en Santa Cruz</span></li>
+            <li><strong>07–23</strong><span>abiertos todos los días</span></li>
+          </ul>
+        </div>
+        <div class="about__media">
+          <figure class="frame frame--tall" data-parallax="-8">
+            <img src="/img/latte-pour.webp" alt="Barista de AMÉ vertiendo leche texturizada sobre un espresso" loading="lazy" />
+          </figure>
+          <figure class="frame frame--small" data-parallax="10">
+            <img src="/img/storefront.webp" alt="Fachada de AMÉ Café &amp; Bar con clientas sonriendo en la terraza" loading="lazy" />
+          </figure>
+          <div class="badge" aria-hidden="true">
+            <svg viewBox="0 0 200 200"><defs><path id="circ" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs><text><textPath href="#circ">CAFÉ CON IDENTIDAD · HECHO EN SANTA CRUZ · </textPath></text></svg>
+            <span>♡</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MENU -->
+    <section class="menu section" id="menu">
+      <div class="section__head">
+        <p class="eyebrow" data-reveal>La carta</p>
+        <h2 class="h2" data-split>Del grano a la mesa, con sabor a casa.</h2>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Categorías del menú">
+        <button role="tab" aria-selected="true" aria-controls="tab-cafe" id="t-cafe" data-tab="cafe">Café</button>
+        <button role="tab" aria-selected="false" aria-controls="tab-bar" id="t-bar" data-tab="bar">Coctelería &amp; sodas</button>
+        <button role="tab" aria-selected="false" aria-controls="tab-cocina" id="t-cocina" data-tab="cocina">Cocina</button>
+      </div>
+
+      <div class="menu__panels">
+        <div class="panel is-active" role="tabpanel" id="tab-cafe" aria-labelledby="t-cafe">
+          <figure class="panel__img"><img src="/img/cambita.webp" alt="Cappuccino con arte latte, sonso y cuñapé" loading="lazy" /></figure>
+          <ul class="items">
+            <li><h3>Espresso &amp; americano</h3><p>Café de especialidad, extraído al momento.</p></li>
+            <li><h3>Cappuccino</h3><p>Leche sedosa y arte latte en cada taza. Nuestro clásico.</p></li>
+            <li><h3>Latte &amp; mocca</h3><p>Suaves y cremosos, perfectos para la tarde.</p></li>
+            <li><h3>Chocolate caliente</h3><p>Para los días de surazo.</p></li>
+            <li><h3>Affogato</h3><p>Helado bañado en espresso. Pregunta por nuestras ediciones limitadas.</p></li>
+            <li class="items__feature"><h3>Promo Cambita</h3><p>Cappuccino + sonso + cuñapé: el gustito cruceño perfecto para la tarde.</p></li>
+          </ul>
+        </div>
+
+        <div class="panel" role="tabpanel" id="tab-bar" aria-labelledby="t-bar" hidden>
+          <figure class="panel__img"><img src="/img/cocteles.webp" alt="Sour de achachairú y mojito de mocochinchi" loading="lazy" /></figure>
+          <ul class="items">
+            <li class="items__feature"><h3>Sour de Achachairú</h3><p>Dulce, ácido y refrescante, con la fruta más cruceña.</p></li>
+            <li class="items__feature"><h3>Mojito de Mocochinchi</h3><p>El clásico cubano con un sabor bien nuestro.</p></li>
+            <li><h3>Sodas artesanales</h3><p>Mora · mocochinchi · maracuyá · jengibre y limón · frutilla.</p></li>
+            <li><h3>Cócteles de café</h3><p>El café también se brinda. Pregunta a nuestro bartender.</p></li>
+          </ul>
+        </div>
+
+        <div class="panel" role="tabpanel" id="tab-cocina" aria-labelledby="t-cocina" hidden>
+          <figure class="panel__img"><img src="/img/keperi.webp" alt="Sándwich de keperi en pan focaccia con soda de mocochinchi" loading="lazy" /></figure>
+          <ul class="items">
+            <li class="items__feature"><h3>Sándwich de Keperi</h3><p>Keperi horneado, queso criollo gratinado y focaccia de romero, con salsa de tamarindo y pico de gallo picante.</p></li>
+            <li><h3>Sándwich Patrimonio</h3><p>Nuestro homenaje al tradicional sándwich de chola.</p></li>
+            <li><h3>Panini AMÉ</h3><p>Crocante, gratinado y para compartir… o no.</p></li>
+            <li><h3>Ensalada César</h3><p>Un clásico que nunca falla, con nuestro toque.</p></li>
+            <li><h3>Menú ejecutivo</h3><p>Almuerzo completo que cambia cada semana. En Banzer incluye sopa.</p></li>
+            <li><h3>Horneados cruceños</h3><p>Cuñapé, sonso y empanada de queso recién salidos.</p></li>
+          </ul>
+        </div>
+      </div>
+      <p class="menu__note" data-reveal>Precios y disponibilidad en carta. Las promos de la semana se publican en <a href="https://www.instagram.com/ame.specialtycoffee/" target="_blank" rel="noopener">@ame.specialtycoffee</a>.</p>
+    </section>
+
+    <!-- GALLERY STRIP -->
+    <section class="strip" aria-label="Galería">
+      <div class="strip__row" data-strip="1">
+        <img src="/img/mocca.webp" alt="Mocca y chocolate caliente en copas de vidrio" loading="lazy" />
+        <img src="/img/cappuccino-empanada.webp" alt="Cappuccino con empanada de queso" loading="lazy" />
+        <img src="/img/cesar.webp" alt="Ensalada César con pollo" loading="lazy" />
+        <img src="/img/panini.webp" alt="Panini AMÉ con salsa" loading="lazy" />
+        <img src="/img/cambita.webp" alt="Cappuccino con arte latte" loading="lazy" />
+      </div>
+    </section>
+
+    <!-- REELS -->
+    <section class="reels" id="experiencias" aria-label="AMÉ en movimiento">
+      <div class="reels__pin">
+        <div class="reels__intro">
+          <p class="eyebrow">AMÉ en movimiento</p>
+          <h2 class="h2">Momentos que se viven <em>mejor juntos.</em></h2>
+          <p>Baristas, bartenders y noches de música en vivo. Así se ve un día en AMÉ.</p>
+        </div>
+        <div class="reels__track" data-reels-track>
+          <article class="reel"><video muted loop playsinline preload="none" poster="/video/acustico-1.jpg" data-src="/video/acustico-1.mp4"></video><span>Viernes acústico</span></article>
+          <article class="reel"><video muted loop playsinline preload="none" poster="/video/sour.jpg" data-src="/video/sour.mp4"></video><span>Sour de Achachairú</span></article>
+          <article class="reel"><video muted loop playsinline preload="none" poster="/video/conversaciones.jpg" data-src="/video/conversaciones.mp4"></video><span>Buenas conversaciones</span></article>
+          <article class="reel"><video muted loop playsinline preload="none" poster="/video/sodas.jpg" data-src="/video/sodas.mp4"></video><span>Sodas artesanales</span></article>
+          <article class="reel"><video muted loop playsinline preload="none" poster="/video/patrimonio.jpg" data-src="/video/patrimonio.mp4"></video><span>Sándwich Patrimonio</span></article>
+          <article class="reel"><video muted loop playsinline preload="none" poster="/video/mojito.jpg" data-src="/video/mojito.mp4"></video><span>Mojito de Mocochinchi</span></article>
+          <article class="reel"><video muted loop playsinline preload="none" poster="/video/acustico-2.jpg" data-src="/video/acustico-2.mp4"></video><span>Noches AMÉ</span></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACOUSTIC -->
+    <section class="live section">
+      <div class="live__media">
+        <img src="/img/acustico-1.webp" alt="Terraza de AMÉ de noche con público disfrutando de un acústico" loading="lazy" data-parallax="-6" />
+      </div>
+      <div class="live__card">
+        <p class="eyebrow">Viernes acústico</p>
+        <h2 class="h2">Música en vivo bajo las luces de la terraza.</h2>
+        <p>Los viernes a las 21:00 la terraza de AMÉ Equipetrol se llena de canciones, buena comida y algo rico para brindar. Trae a tu gente.</p>
+        <dl class="live__meta">
+          <div><dt>Cuándo</dt><dd>Viernes · 21:00</dd></div>
+          <div><dt>Dónde</dt><dd>AMÉ Equipetrol</dd></div>
+        </dl>
+        <a class="btn" href="https://wa.me/59175026695?text=Hola%20AM%C3%89%2C%20quiero%20reservar%20para%20el%20viernes%20ac%C3%BAstico" target="_blank" rel="noopener">Reservar mesa</a>
+        <p class="small">La agenda de artistas se anuncia en Instagram.</p>
+      </div>
+    </section>
+
+    <!-- LOCATIONS -->
+    <section class="locations section" id="sucursales">
+      <div class="section__head">
+        <p class="eyebrow" data-reveal>Sucursales</p>
+        <h2 class="h2" data-split>Dos casas, la misma familia.</h2>
+      </div>
+      <div class="locations__grid">
+        <article class="loc" data-reveal>
+          <span class="loc__num">01</span>
+          <h3>AMÉ Equipetrol</h3>
+          <p>Av. San Martín · Shopping Fidalga</p>
+          <p class="loc__extra">Terraza, coctelería y viernes acústico.</p>
+          <p class="loc__hours">Lunes a domingo · 07:00 – 23:00</p>
+          <a class="link" href="https://www.google.com/maps/search/?api=1&amp;query=AM%C3%89%20Specialty%20Coffee%20Shopping%20Fidalga%20Av.%20San%20Mart%C3%ADn%20Santa%20Cruz%20de%20la%20Sierra" target="_blank" rel="noopener">Abrir en Google Maps →</a>
+        </article>
+        <article class="loc" data-reveal>
+          <span class="loc__num">02</span>
+          <h3>AMÉ Banzer</h3>
+          <p>Av. Banzer · Shopping Fidalga</p>
+          <p class="loc__extra">Menú ejecutivo con sopa incluida.</p>
+          <p class="loc__hours">Lunes a domingo · 07:00 – 23:00</p>
+          <a class="link" href="https://www.google.com/maps/search/?api=1&amp;query=AM%C3%89%20Specialty%20Coffee%20Shopping%20Fidalga%20Av.%20Banzer%20Santa%20Cruz%20de%20la%20Sierra" target="_blank" rel="noopener">Abrir en Google Maps →</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+      <div class="cta__inner">
+        <svg class="cta__mark"><use href="#ame-mark"/></svg>
+        <h2 class="cta__title">¿Un café, un brindis o las dos cosas?</h2>
+        <div class="hero__ctas">
+          <a class="btn btn--light" href="https://wa.me/59175026695?text=Hola%20AM%C3%89%2C%20quiero%20reservar%20una%20mesa" target="_blank" rel="noopener">Reservar por WhatsApp</a>
+          <a class="btn btn--ghost-light" href="https://www.instagram.com/ame.specialtycoffee/" target="_blank" rel="noopener">Síguenos en Instagram</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__grid">
+      <div>
+        <svg class="footer__mark"><use href="#ame-mark"/></svg>
+        <p>¡Amamos, reímos y vivimos para darte lo mejor! 🤎</p>
+      </div>
+      <div>
+        <h4>Visítanos</h4>
+        <p>AMÉ Equipetrol · Av. San Martín, Shopping Fidalga</p>
+        <p>AMÉ Banzer · Av. Banzer, Shopping Fidalga</p>
+        <p>Todos los días · 07:00 – 23:00</p>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <p><a href="https://wa.me/59175026695" target="_blank" rel="noopener">WhatsApp · +591 750 26695</a></p>
+        <p><a href="https://www.instagram.com/ame.specialtycoffee/" target="_blank" rel="noopener">Instagram · @ame.specialtycoffee</a></p>
+      </div>
+    </div>
+    <p class="footer__legal">© <span data-year></span> AMÉ Specialty Coffee · Santa Cruz de la Sierra, Bolivia</p>
+  </footer>
+
+  <script src="/vendor/gsap.min.js"></script>
+  <script src="/vendor/ScrollTrigger.min.js"></script>
+  <script src="/vendor/lenis.min.js"></script>
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>
