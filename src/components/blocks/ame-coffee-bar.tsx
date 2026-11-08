@@ -72,17 +72,6 @@ export function AmeCoffeeBar() {
         menuLabel="Bebidas de la barra AMÉ"
         className="max-w-6xl"
       />
-      <p className="mt-4 text-center text-xs tracking-tight text-[#7a5a42]">
-        Ilustración interactiva por{" "}
-        <a
-          href="https://aakashmehra.com/ref/coffeepourmenu"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="font-medium text-[#3a271d] underline-offset-4 hover:underline"
-        >
-          aakashmehra.com
-        </a>
-      </p>
     </div>
   );
 }

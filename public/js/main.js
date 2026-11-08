@@ -52,12 +52,49 @@ let hero = null;
 try { hero = initHeroScene(canvas); } catch (e) { console.warn('WebGL unavailable', e); }
 if (!hero) document.documentElement.classList.add('no-webgl');
 
-if (hero) {
-  ScrollTrigger.create({
-    trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true,
-    onUpdate: (s) => hero.setProgress(s.progress),
+/* The hero is a pinned "film": scroll progress through the tall .hero track
+   drives the 3D scene and the cinematic overlays (letterbox, chapters, rail). */
+const clamp01 = (v) => Math.min(1, Math.max(0, v));
+const smoothstep = (a, b, v) => { const t = clamp01((v - a) / (b - a)); return t * t * (3 - 2 * t); };
+const sticky = document.querySelector('.hero__sticky');
+const introEl = document.querySelector('[data-hero-intro]');
+const scrollHint = document.querySelector('.hero__scroll');
+const chapters = [...document.querySelectorAll('[data-chapter]')];
+const finale = document.querySelector('[data-finale]');
+const rail = document.querySelector('.hero__rail');
+const railItems = [...document.querySelectorAll('[data-rail]')];
+const railFill = document.querySelector('[data-rail-fill]');
+
+function renderHero(p) {
+  hero && hero.setProgress(p);
+  // letterbox bars slide in once the film starts and leave for the finale
+  const bars = smoothstep(0.04, 0.12, p) * (1 - smoothstep(0.86, 0.94, p));
+  sticky.style.setProperty('--bar', `${(bars * 7).toFixed(2)}vh`);
+  const out = smoothstep(0.015, 0.09, p);
+  introEl.style.opacity = String(1 - out);
+  introEl.style.transform = `translateY(${-out * 60}px)`;
+  introEl.style.visibility = out > 0.99 ? 'hidden' : 'visible';
+  scrollHint.style.opacity = String(0.6 * (1 - smoothstep(0.01, 0.05, p)));
+  chapters.forEach((el) => {
+    const from = +el.dataset.from, to = +el.dataset.to;
+    const v = smoothstep(from, from + 0.035, p) * (1 - smoothstep(to - 0.035, to, p));
+    el.style.opacity = v.toFixed(3);
+    el.style.transform = `translateY(${((1 - v) * 30).toFixed(1)}px)`;
   });
+  const f = smoothstep(0.9, 0.96, p);
+  finale.style.opacity = f.toFixed(3);
+  finale.style.transform = `translateY(${((1 - f) * 30).toFixed(1)}px)`;
+  finale.classList.toggle('is-on', f > 0.5);
+  rail.style.opacity = String(smoothstep(0.08, 0.13, p) * (1 - smoothstep(0.87, 0.9, p)));
+  railItems.forEach((li) => li.classList.toggle('is-on', p >= +li.dataset.rail));
+  railFill.style.height = `${(clamp01((p - 0.13) / (0.86 - 0.13)) * 100).toFixed(1)}%`;
 }
+ScrollTrigger.create({
+  trigger: '[data-hero]', start: 'top top', end: 'bottom bottom',
+  onUpdate: (s) => renderHero(s.progress),
+  onRefresh: (s) => renderHero(s.progress),
+});
+renderHero(0);
 
 /* ---------- Loader → intro ---------- */
 const bar = document.querySelector('.loader__bar span');

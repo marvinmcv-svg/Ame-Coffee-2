@@ -126,25 +126,57 @@ body:not(.is-loading) .loader { clip-path: inset(0 0 100% 0); pointer-events: no
 /* ==========================================================================
    Hero
    ========================================================================== */
-.hero {
-  position: relative;
-  min-height: 100svh;
+/* The hero is a tall scroll track; .hero__sticky is the "screen" that stays
+   pinned while the film plays (progress is driven from js/main.js). */
+.hero { position: relative; height: 560vh; background: var(--espresso); color: var(--cream); }
+.hero__sticky {
+  position: sticky; top: 0;
+  height: 100vh; height: 100svh;
   display: flex; align-items: center;
   padding: 120px var(--gutter) 90px;
-  background:
-    radial-gradient(120% 90% at 78% 40%, #4a372c 0%, var(--roast) 45%, var(--espresso) 100%);
-  color: var(--cream);
+  background: radial-gradient(120% 90% at 78% 40%, #4a372c 0%, var(--roast) 45%, var(--espresso) 100%);
   overflow: hidden;
   isolation: isolate;
+  --bar: 0px;
 }
-.hero::after { /* grain */
-  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: .14; mix-blend-mode: overlay;
+.hero__sticky::after { /* grain */
+  content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none; opacity: .14; mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
+.hero__sticky::before { /* vignette + caption legibility */
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(120% 80% at 50% 45%, transparent 55%, rgba(10,7,5,.55) 100%), linear-gradient(transparent 60%, rgba(14,10,8,.55));
+}
+.hero__bars i { position: absolute; left: 0; right: 0; z-index: 2; height: var(--bar); background: #0b0806; pointer-events: none; }
+.hero__bars i:first-child { top: 0; }
+.hero__bars i:last-child { bottom: 0; }
+
+.chapter { position: absolute; z-index: 4; left: var(--gutter); bottom: calc(var(--bar) + clamp(28px, 6vh, 70px)); max-width: 520px; opacity: 0; pointer-events: none; will-change: opacity, transform; }
+.chapter { text-shadow: 0 2px 30px rgba(0,0,0,.55); }
+.chapter::before, .hero__finale::before { content: ""; position: absolute; z-index: -1; inset: -70px -140px -60px -90px; background: radial-gradient(closest-side, rgba(14,10,8,.78), rgba(14,10,8,.4) 60%, transparent); pointer-events: none; }
+.hero__finale::before { inset: -40px 10% -40px; }
+.chapter__num { display: block; font-family: var(--f-brand); font-size: 12px; font-weight: 600; letter-spacing: .32em; color: var(--crema); margin-bottom: .6rem; }
+.chapter__title { font-family: var(--f-display); font-weight: 300; font-size: clamp(3rem, 7vw, 6.2rem); line-height: .95; letter-spacing: -.035em; margin-bottom: .9rem; }
+.chapter p { color: rgba(244,238,231,.8); font-size: 1.05rem; max-width: 420px; margin: 0; }
+
+.hero__finale { position: absolute; z-index: 4; left: 0; right: 0; bottom: calc(var(--bar) + clamp(28px, 7vh, 80px)); text-align: center; opacity: 0; pointer-events: none; padding: 0 var(--gutter); }
+.hero__finale.is-on { pointer-events: auto; }
+.hero__finale-title { font-family: var(--f-display); font-weight: 300; font-size: clamp(2.6rem, 6vw, 5.4rem); line-height: 1; letter-spacing: -.03em; }
+.hero__finale-title em { color: var(--crema); }
+.hero__finale .hero__ctas { justify-content: center; }
+
+.hero__rail { position: absolute; z-index: 4; right: var(--gutter); top: 50%; transform: translateY(-50%); list-style: none; margin: 0; padding: 0 0 0 18px; display: grid; gap: 26px; opacity: 0; transition: opacity .5s; }
+.hero__rail::before { content: ""; position: absolute; left: 0; top: 4px; bottom: 4px; width: 1px; background: rgba(244,238,231,.2); }
+.hero__rail-fill { position: absolute; left: 0; top: 4px; width: 1px; height: 0; background: var(--crema); }
+.hero__rail li { font-family: var(--f-brand); font-size: 10px; font-weight: 600; letter-spacing: .24em; text-transform: uppercase; color: rgba(244,238,231,.4); transition: color .4s; position: relative; }
+.hero__rail li::before { content: ""; position: absolute; left: -21px; top: 3px; width: 7px; height: 7px; border-radius: 50%; background: var(--espresso); border: 1px solid rgba(244,238,231,.35); transition: background .4s, border-color .4s; }
+.hero__rail li.is-on { color: var(--cream); }
+.hero__rail li.is-on::before { background: var(--crema); border-color: var(--crema); }
 .hero__canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
+.hero__content { will-change: opacity, transform; }
 .hero__fallback { display: none; position: absolute; right: 0; top: 0; width: 55%; height: 100%; object-fit: cover; opacity: .55; mask-image: linear-gradient(90deg, transparent, #000 40%); -webkit-mask-image: linear-gradient(90deg, transparent, #000 40%); }
 .no-webgl .hero__fallback { display: block; }
-.hero__content { position: relative; z-index: 2; max-width: 640px; }
+.hero__content { position: relative; z-index: 4; max-width: 640px; }
 .hero__title {
   font-family: var(--f-display);
   font-weight: 300;
@@ -161,7 +193,7 @@ body:not(.is-loading) .loader { clip-path: inset(0 0 100% 0); pointer-events: no
 .hero__ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 2rem; }
 .hero .btn { --bg: var(--cream); --fg: var(--espresso); }
 .hero .btn--ghost { --bg: transparent; --fg: var(--cream); border-color: rgba(244,238,231,.45); }
-.hero__scroll { position: absolute; z-index: 2; left: var(--gutter); bottom: 28px; display: flex; align-items: center; gap: 14px; font-family: var(--f-brand); font-size: 11px; letter-spacing: .3em; text-transform: uppercase; opacity: .6; }
+.hero__scroll { position: absolute; z-index: 4; left: var(--gutter); bottom: 28px; display: flex; align-items: center; gap: 14px; font-family: var(--f-brand); font-size: 11px; letter-spacing: .3em; text-transform: uppercase; opacity: .6; }
 .hero__scroll i { width: 56px; height: 1px; background: currentColor; position: relative; overflow: hidden; }
 .hero__scroll i::after { content: ""; position: absolute; inset: 0; background: var(--crema); animation: scrollline 2.2s var(--ease) infinite; }
 @keyframes scrollline { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
@@ -263,6 +295,15 @@ body:not(.is-loading) .loader { clip-path: inset(0 0 100% 0); pointer-events: no
 .live .btn { --bg: var(--cream); --fg: var(--espresso); }
 
 /* ==========================================================================
+   Reservations (React island)
+   ========================================================================== */
+.reserve { background: var(--espresso); color: var(--cream); padding: clamp(80px, 12vw, 160px) var(--gutter); }
+.reserve > * { max-width: 1400px; margin-left: auto; margin-right: auto; }
+.reserve__head { margin-bottom: clamp(40px, 6vw, 72px); }
+.reserve__head p:not(.eyebrow) { color: rgba(244,238,231,.7); max-width: 520px; }
+#reserve-root { font-family: var(--f-body); min-height: 600px; }
+
+/* ==========================================================================
    Locations
    ========================================================================== */
 .locations > * { max-width: 1400px; margin-left: auto; margin-right: auto; }
@@ -326,8 +367,12 @@ body:not(.is-loading) .loader { clip-path: inset(0 0 100% 0); pointer-events: no
 }
 @media (max-width: 600px) {
   body { font-size: 16px; }
-  .hero { align-items: flex-end; padding-top: 42svh; padding-bottom: 56px; min-height: 100svh; }
-  .hero::before { content: ""; position: absolute; inset: 34% 0 0; z-index: 1; background: linear-gradient(transparent, rgba(30,23,19,.75) 30%); pointer-events: none; }
+  .hero { height: 520vh; }
+  .hero__sticky { align-items: flex-end; padding-top: 42svh; padding-bottom: 56px; }
+  .hero__sticky::before { background: linear-gradient(transparent 34%, rgba(30,23,19,.8) 62%); }
+  .hero__rail { display: none; }
+  .chapter { right: var(--gutter); }
+  .chapter p { font-size: .98rem; }
   .hero__title { font-size: clamp(3.4rem, 18vw, 5.2rem); margin-bottom: 1.2rem; }
   .hero__lede { font-size: 1rem; }
   .hero__ctas { margin-top: 1.4rem; }
