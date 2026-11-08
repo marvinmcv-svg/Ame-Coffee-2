@@ -66,6 +66,7 @@
     </a>
     <nav class="nav__links" aria-label="Principal">
       <a href="#nosotros">Nosotros</a>
+      <a href="#barra">La barra</a>
       <a href="#menu">Menú</a>
       <a href="#experiencias">Experiencias</a>
       <a href="#sucursales">Sucursales</a>
@@ -76,6 +77,7 @@
 
   <div class="mobile-menu" data-mobile-menu>
     <a href="#nosotros">Nosotros</a>
+    <a href="#barra">La barra</a>
     <a href="#menu">Menú</a>
     <a href="#experiencias">Experiencias</a>
     <a href="#sucursales">Sucursales</a>
@@ -138,6 +140,17 @@
           </div>
         </div>
       </div>
+    </section>
+
+    <!-- COFFEE BAR (React island: src/components/blocks/ame-coffee-bar.tsx) -->
+    <section class="bar section" id="barra">
+      <div class="section__head">
+        <p class="eyebrow" data-reveal>La barra</p>
+        <h2 class="h2" data-split>Elige tu café y míralo servirse.</h2>
+        <p class="bar__lede" data-reveal>Pasa el cursor o toca cada bebida: cada taza sale de nuestra barra con el sello AMÉ.</p>
+      </div>
+      <div id="coffee-bar-root" class="tw-island bar__stage"></div>
+      <noscript><p>Espresso · Americano · Cappuccino · Latte</p></noscript>
     </section>
 
     <!-- MENU -->
@@ -304,5 +317,6 @@
   <script src="/vendor/ScrollTrigger.min.js"></script>
   <script src="/vendor/lenis.min.js"></script>
   <script type="module" src="/js/main.js"></script>
+  <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>

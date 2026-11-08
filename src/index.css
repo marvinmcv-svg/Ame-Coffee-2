@@ -1,0 +1,34 @@
+/*
+ * Tailwind v4 for the React islands.
+ * Preflight (Tailwind's global reset) is intentionally NOT imported: the rest
+ * of the page is the hand-written site in /public/css/style.css and a global
+ * reset would restyle it. Islands get a small scoped reset instead.
+ */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+@source "./";
+
+@layer base {
+  .tw-island,
+  .tw-island *,
+  .tw-island *::before,
+  .tw-island *::after {
+    box-sizing: border-box;
+    border: 0 solid;
+    margin: 0;
+    padding: 0;
+  }
+  .tw-island button {
+    font: inherit;
+    color: inherit;
+    background: transparent;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .tw-island svg {
+    display: block;
+    overflow: visible;
+  }
+}

@@ -195,6 +195,14 @@ body:not(.is-loading) .loader { clip-path: inset(0 0 100% 0); pointer-events: no
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* ==========================================================================
+   Coffee bar (React island)
+   ========================================================================== */
+.bar { background: linear-gradient(var(--paper), #efe2d1); }
+.bar > * { max-width: 1400px; margin-left: auto; margin-right: auto; }
+.bar__lede { color: #4a3f39; max-width: 520px; }
+.bar__stage { min-height: 420px; font-family: var(--f-body); }
+
+/* ==========================================================================
    Menu
    ========================================================================== */
 .menu { background: var(--cream); }
