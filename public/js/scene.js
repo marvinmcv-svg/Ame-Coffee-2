@@ -12,6 +12,20 @@
 import * as THREE from 'three';
 import { RoomEnvironment } from '/vendor/RoomEnvironment.js';
 
+/* ---------- quality tier ----------
+   Phones/tablets get a lighter pipeline: lower resolution, no shadow map,
+   standard (not physical) materials, fewer segments/beans, cheaper steam.
+   Every device also adapts: if frames get slow, the render resolution drops. */
+const LOW = window.matchMedia('(pointer: coarse)').matches || Math.min(screen.width, screen.height) < 820;
+const SEG = LOW ? 48 : 96;
+const PHYSICAL_ONLY = ['clearcoat', 'clearcoatRoughness', 'sheen', 'sheenColor'];
+function gloss(opts) {
+  if (!LOW) return new THREE.MeshPhysicalMaterial(opts);
+  const o = { ...opts };
+  PHYSICAL_ONLY.forEach((k) => delete o[k]);
+  return new THREE.MeshStandardMaterial(o);
+}
+
 /* ---------- helpers ---------- */
 
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
@@ -116,7 +130,7 @@ function innerR(y) {
 
 function buildCup() {
   const group = new THREE.Group();
-  const ceramic = new THREE.MeshPhysicalMaterial({
+  const ceramic = gloss({
     color: 0xf7f3ee, roughness: 0.28, clearcoat: 1, clearcoatRoughness: 0.12, sheen: 0.4, sheenColor: new THREE.Color(0xffffff),
   });
 
@@ -124,12 +138,12 @@ function buildCup() {
     [0.00, 0.00], [0.52, 0.00], [0.60, 0.04], [0.66, 0.14], [0.80, 0.42], [0.92, 0.76], [0.99, 1.04], [1.02, 1.12],
     [1.00, 1.15], [0.95, 1.12], [0.91, 1.02], [0.82, 0.72], [0.70, 0.40], [0.56, 0.16], [0.00, 0.12],
   ].map(([x, y]) => new THREE.Vector2(x, y));
-  const body = new THREE.Mesh(new THREE.LatheGeometry(prof, 96), ceramic);
+  const body = new THREE.Mesh(new THREE.LatheGeometry(prof, SEG), ceramic);
   body.castShadow = true;
   group.add(body);
 
   // Liquid surfaces: crema (espresso), mix (with milk), art (rosetta)
-  const disc = new THREE.CircleGeometry(1, 96);
+  const disc = new THREE.CircleGeometry(1, SEG);
   const mk = (map, transparent) => {
     const m = new THREE.Mesh(disc, new THREE.MeshStandardMaterial({
       map, roughness: 0.6, envMapIntensity: 0.15, transparent, depthWrite: !transparent,
@@ -150,7 +164,7 @@ function buildCup() {
 
   const decal = new THREE.Mesh(
     new THREE.CylinderGeometry(0.955, 0.835, 0.42, 64, 1, true, -0.62, 1.24),
-    new THREE.MeshPhysicalMaterial({ map: logoDecalTexture(), transparent: true, roughness: 0.3, clearcoat: 1, depthWrite: false })
+    gloss({ map: logoDecalTexture(), transparent: true, roughness: 0.3, clearcoat: 1, depthWrite: false })
   );
   decal.position.y = 0.66;
   decal.rotation.y = Math.PI * 1.5;
@@ -158,7 +172,7 @@ function buildCup() {
 
   const sp = [[0, 0], [0.9, 0], [1.05, 0.02], [1.45, 0.12], [1.62, 0.2], [1.6, 0.23], [1.42, 0.17], [1.0, 0.08], [0.72, 0.07], [0, 0.07]]
     .map(([x, y]) => new THREE.Vector2(x, y));
-  const saucer = new THREE.Mesh(new THREE.LatheGeometry(sp, 96), ceramic);
+  const saucer = new THREE.Mesh(new THREE.LatheGeometry(sp, SEG), ceramic);
   saucer.position.y = -0.07;
   saucer.receiveShadow = true;
   group.add(saucer);
@@ -167,7 +181,7 @@ function buildCup() {
 }
 
 function beanGeometry() {
-  const geo = new THREE.SphereGeometry(1, 32, 20);
+  const geo = new THREE.SphereGeometry(1, LOW ? 16 : 32, LOW ? 10 : 20);
   const p = geo.attributes.position, v = new THREE.Vector3();
   for (let i = 0; i < p.count; i++) {
     v.fromBufferAttribute(p, i);
@@ -196,7 +210,7 @@ function steamMaterial() {
       float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7))) * 43758.5453); }
       float noise(vec2 p){ vec2 i=floor(p), f=fract(p); f=f*f*(3.0-2.0*f);
         return mix(mix(hash(i),hash(i+vec2(1,0)),f.x), mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),f.x), f.y); }
-      float fbm(vec2 p){ float v=0.0, a=0.5; for(int i=0;i<5;i++){ v+=a*noise(p); p*=2.03; a*=0.5; } return v; }
+      float fbm(vec2 p){ float v=0.0, a=0.5; for(int i=0;i<${LOW ? 3 : 5};i++){ v+=a*noise(p); p*=2.03; a*=0.5; } return v; }
       void main(){
         vec2 uv = vUv;
         float n = fbm(vec2(uv.x * 2.4 + uSeed, uv.y * 2.0 - uTime * 0.35));
@@ -210,9 +224,9 @@ function steamMaterial() {
 
 // A falling liquid column (unit height, hangs down from its origin)
 function buildStream(radius, color, rough) {
-  const geo = new THREE.CylinderGeometry(radius, radius * 0.82, 1, 20, 24, true);
+  const geo = new THREE.CylinderGeometry(radius, radius * 0.82, 1, LOW ? 12 : 20, LOW ? 6 : 24, true);
   geo.translate(0, -0.5, 0);
-  const mat = new THREE.MeshPhysicalMaterial({ color, roughness: rough, clearcoat: 0.8, clearcoatRoughness: 0.15 });
+  const mat = gloss({ color, roughness: rough, clearcoat: 0.8, clearcoatRoughness: 0.15 });
   const m = new THREE.Mesh(geo, mat);
   m.visible = false;
   return m;
@@ -256,15 +270,17 @@ function cameraAt(p, outPos, outTarget) {
 export function initHeroScene(canvas) {
   let renderer;
   try {
-    renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
+    renderer = new THREE.WebGLRenderer({ canvas, antialias: !LOW, alpha: true, powerPreference: 'high-performance' });
   } catch (e) {
     return null;
   }
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  const MAX_DPR = Math.min(window.devicePixelRatio, LOW ? 1.5 : 2);
+  let dpr = MAX_DPR;
+  renderer.setPixelRatio(dpr);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.05;
-  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.enabled = !LOW;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
   const scene = new THREE.Scene();
@@ -275,7 +291,7 @@ export function initHeroScene(canvas) {
 
   const key = new THREE.DirectionalLight(0xffe2c4, 2.4);
   key.position.set(3, 6, 4);
-  key.castShadow = true;
+  key.castShadow = !LOW;
   key.shadow.mapSize.set(1024, 1024);
   key.shadow.radius = 6;
   scene.add(key);
@@ -289,7 +305,16 @@ export function initHeroScene(canvas) {
   const cup = buildCup();
   stage.add(cup.group);
 
-  const shadowPlane = new THREE.Mesh(new THREE.PlaneGeometry(8, 8), new THREE.ShadowMaterial({ opacity: 0.35 }));
+  const shadowPlane = LOW
+    ? new THREE.Mesh(new THREE.PlaneGeometry(4.4, 4.4), new THREE.MeshBasicMaterial({
+        transparent: true, depthWrite: false,
+        map: canvasTex((g, s) => {
+          const r = g.createRadialGradient(s / 2, s / 2, 0, s / 2, s / 2, s / 2);
+          r.addColorStop(0, 'rgba(0,0,0,.55)'); r.addColorStop(0.55, 'rgba(0,0,0,.25)'); r.addColorStop(1, 'rgba(0,0,0,0)');
+          g.fillStyle = r; g.fillRect(0, 0, s, s);
+        }, 128, 128),
+      }))
+    : new THREE.Mesh(new THREE.PlaneGeometry(8, 8), new THREE.ShadowMaterial({ opacity: 0.35 }));
   shadowPlane.rotation.x = -Math.PI / 2;
   shadowPlane.position.y = -0.08;
   shadowPlane.receiveShadow = true;
@@ -305,7 +330,7 @@ export function initHeroScene(canvas) {
   // Ripple rings where the stream hits the surface
   const ripples = Array.from({ length: 3 }, () => {
     const r = new THREE.Mesh(
-      new THREE.RingGeometry(0.9, 1, 48),
+      new THREE.RingGeometry(0.9, 1, LOW ? 24 : 48),
       new THREE.MeshBasicMaterial({ color: 0xfff4e6, transparent: true, opacity: 0, depthWrite: false })
     );
     r.rotation.x = -Math.PI / 2;
@@ -314,8 +339,8 @@ export function initHeroScene(canvas) {
   });
 
   const steams = [];
-  for (let i = 0; i < 3; i++) {
-    const m = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 2.4, 1, 32), steamMaterial());
+  for (let i = 0; i < (LOW ? 1 : 3); i++) {
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 2.4, 1, LOW ? 12 : 32), steamMaterial());
     m.position.set((i - 1) * 0.22, 2.25, (i - 1) * 0.1);
     m.rotation.y = i * 0.9;
     cup.group.add(m);
@@ -323,10 +348,10 @@ export function initHeroScene(canvas) {
   }
 
   // Beans
-  const BEANS = window.innerWidth < 700 ? 26 : 46;
-  const beanMat = new THREE.MeshPhysicalMaterial({ color: 0x4a2a17, roughness: 0.42, clearcoat: 0.7, clearcoatRoughness: 0.3, sheen: 0.3 });
+  const BEANS = LOW ? 18 : window.innerWidth < 700 ? 26 : 46;
+  const beanMat = gloss({ color: 0x4a2a17, roughness: 0.42, clearcoat: 0.7, clearcoatRoughness: 0.3, sheen: 0.3 });
   const beans = new THREE.InstancedMesh(beanGeometry(), beanMat, BEANS);
-  beans.castShadow = true;
+  beans.castShadow = !LOW;
   scene.add(beans);
   const beanData = Array.from({ length: BEANS }, (_, i) => {
     const wide = window.innerWidth >= 760;
@@ -349,8 +374,12 @@ export function initHeroScene(canvas) {
   const state = { progress: 0, mx: 0, my: 0, tmx: 0, tmy: 0, intro: 0, visible: true, mobile: false };
   const hero = { x: 0, y: 0, s: 1 };
 
+  let lastW = 0, lastH = 0;
   function resize() {
     const w = canvas.clientWidth, h = canvas.clientHeight;
+    // mobile address bar showing/hiding only changes height a little: don't rebuild buffers
+    if (w === lastW && Math.abs(h - lastH) < 160 && lastH) return;
+    lastW = w; lastH = h;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
@@ -396,9 +425,25 @@ export function initHeroScene(canvas) {
     return fall > 0.95 && lift < 0.05; // actively hitting the surface
   }
 
-  function frame() {
+  // adaptive resolution: if the last 45 frames averaged under ~45 fps, step the pixel ratio down
+  let perfFrames = 0, perfTime = 0, perfLast = 0;
+  function adapt(now) {
+    if (perfLast) { perfTime += now - perfLast; perfFrames++; }
+    perfLast = now;
+    if (perfFrames < 45) return;
+    const avg = perfTime / perfFrames;
+    perfFrames = 0; perfTime = 0;
+    if (avg > 22 && dpr > 0.75) {
+      dpr = Math.max(0.75, dpr - 0.25);
+      renderer.setPixelRatio(dpr);
+      renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+    }
+  }
+
+  function frame(now) {
     requestAnimationFrame(frame);
-    if (!state.visible) return;
+    if (!state.visible) { perfLast = 0; return; }
+    adapt(now);
     const t = clock.getElapsedTime();
     state.mx += (state.tmx - state.mx) * 0.05;
     state.my += (state.tmy - state.my) * 0.05;
@@ -488,7 +533,7 @@ export function initHeroScene(canvas) {
 
     renderer.render(scene, camera);
   }
-  frame();
+  requestAnimationFrame(frame);
 
   return {
     setProgress(v) { state.progress = v; },

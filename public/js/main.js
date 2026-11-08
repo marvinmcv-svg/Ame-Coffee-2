@@ -8,7 +8,10 @@ document.querySelector('[data-year]').textContent = new Date().getFullYear();
 /* ---------- Smooth scroll (Lenis driven by GSAP's ticker so they never fight) ---------- */
 gsap.registerPlugin(ScrollTrigger);
 let lenis = null;
-if (!reduced && Lenis) {
+// Touch devices keep native scrolling (smoother and cheaper than JS smoothing).
+const touch = window.matchMedia('(pointer: coarse)').matches;
+ScrollTrigger.config({ ignoreMobileResize: true });
+if (!reduced && !touch && Lenis) {
   lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((t) => lenis.raf(t * 1000));
@@ -56,7 +59,7 @@ if (!hero) document.documentElement.classList.add('no-webgl');
    drives the 3D scene and the cinematic overlays (letterbox, chapters, rail). */
 const clamp01 = (v) => Math.min(1, Math.max(0, v));
 const smoothstep = (a, b, v) => { const t = clamp01((v - a) / (b - a)); return t * t * (3 - 2 * t); };
-const sticky = document.querySelector('.hero__sticky');
+const barEls = [...document.querySelectorAll('.hero__bars i')];
 const introEl = document.querySelector('[data-hero-intro]');
 const scrollHint = document.querySelector('.hero__scroll');
 const chapters = [...document.querySelectorAll('[data-chapter]')];
@@ -69,7 +72,7 @@ function renderHero(p) {
   hero && hero.setProgress(p);
   // letterbox bars slide in once the film starts and leave for the finale
   const bars = smoothstep(0.04, 0.12, p) * (1 - smoothstep(0.86, 0.94, p));
-  sticky.style.setProperty('--bar', `${(bars * 7).toFixed(2)}vh`);
+  barEls.forEach((el) => { el.style.transform = `scaleY(${bars.toFixed(3)})`; });
   const out = smoothstep(0.015, 0.09, p);
   introEl.style.opacity = String(1 - out);
   introEl.style.transform = `translateY(${-out * 60}px)`;
